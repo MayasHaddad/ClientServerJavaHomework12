@@ -14,7 +14,7 @@ public class ChatClientImpl implements ChatClientOp{
 		System.out.println(msg.getSource()+":"+msg.getContent());
 	}
 
-	public static void main(final String[] args)  throws Exception{
+public static void main(final String[] args)  throws Exception{
 
 		if(args.length != 2){
 			System.err.println("Usage : java "+ChatClientImpl.class.getName()+" Host StubName");
@@ -26,20 +26,21 @@ public class ChatClientImpl implements ChatClientOp{
 
 		ChatClientImpl currentClient=new ChatClientImpl();
 		ChatClientOp clientStub = (ChatClientOp) UnicastRemoteObject.exportObject(currentClient,0); // Doesn't work without 0. Reason : NA
-		
+
 		myLocalServerStub.register(clientStub);
-		
+
 		Scanner sc = new Scanner(System.in);
 		String msg = "";
-		
+
 		while(true){
 			if(msg.equals("quit")){
 				break;
 			}
 			msg.clean();
 			msg = sc.nextLine();
-			MyMessage myMessage = new MyMessage(InetAddress.getLocalHost().getHostName();
-,msg);
-			myLocalServerStub.write(MyMessage)
+			MyMessage myMessage = new MyMessage(InetAddress.getLocalHost().getHostName()
+			,msg);
+			myLocalServerStub.write(MyMessage);
 		}
+	}
 }
