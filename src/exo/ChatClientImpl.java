@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-
+import java.net.InetAddress;
 
 public class ChatClientImpl implements ChatClientOp{
 
@@ -22,12 +22,24 @@ public class ChatClientImpl implements ChatClientOp{
 		}
 
 		Registry rmiRegister = LocateRegistry.getRegistry(args[0]);
-		PersonManager myLocalStub = (PersonManager) rmiRegister.lookup(args[1]);
+		ChatServerOp myLocalServerStub = (ChatServerOp) rmiRegister.lookup(args[1]);
 
-		Client currentClient = new Client(myLocalStub);
-
+		ChatClientImpl currentClient=new ChatClientImpl();
+		ChatClientOp clientStub = (ChatClientOp) UnicastRemoteObject.exportObject(currentClient,0); // Doesn't work without 0. Reason : NA
+		
+		myLocalServerStub.register(clientStub);
+		
 		Scanner sc = new Scanner(System.in);
 		String msg = "";
-		char cmd;
-
+		
+		while(true){
+			if(msg.equals("quit")){
+				break;
+			}
+			msg.clean();
+			msg = sc.nextLine();
+			MyMessage myMessage = new MyMessage(InetAddress.getLocalHost().getHostName();
+,msg);
+			myLocalServerStub.write(MyMessage)
+		}
 }
